@@ -1,3 +1,4 @@
+// const cucumber = require('cypress-cucumber-preprocessor').default;
 const { defineConfig } = require("cypress");
 const cucumber = require("cypress-cucumber-preprocessor").default;
 module.exports = defineConfig({
@@ -6,5 +7,6 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on("file:preprocessor", cucumber());
     },
+    
   },
 });
