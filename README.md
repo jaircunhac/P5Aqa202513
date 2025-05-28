@@ -3,7 +3,7 @@
 ## Equipe do projeto: 
 ## Jair Cunha Cavalcanti Neto 
 ## Arrys Hanry Nobrega Wanderley
-
+---
 
 ## Instalação e Execução
 
