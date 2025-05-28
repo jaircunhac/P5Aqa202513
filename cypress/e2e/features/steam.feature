@@ -5,15 +5,21 @@ Feature: Interações básicas com a Steam Store
     When ele digita "HELLDIVERS™ 2" na barra de busca
     And clica no botão de buscar
     Then os resultados devem conter jogos relacionados a "HELLDIVERS™ 2"
+    And ele clica no jogo "HELLDIVERS™ 2"
+    Then ele deve ser redirecionado para a página com os detalhes do jogo
+    And o nome do jogo "HELLDIVERS™ 2" deve estar visível na página
 
   Scenario: Adicionar um jogo ao carrinho
     Given que o usuário acessa o site da Steam Store
-    And busca por "Dark Souls:Remastered"
-    When ele clica em um jogo da lista
+    And busca por "DARK SOULS™: REMASTERED"
+    When ele clica no jogo "DARK SOULS™: REMASTERED"
     Then ele deve ser redirecionado para a página com os detalhes do jogo
-    And deve visualizar o título do jogo e um botão de adicionar ao carrinho, clicar no botão de adicionar ao carrinho e depois ver o carrinho
+    And o nome do jogo "DARK SOULS™: REMASTERED" deve estar visível na página
+    And deve visualizar o botão de adicionar ao carrinho e clicar nele
+    And deve visualizar o botão de ver o carrinho e clicar nele
+    Then o usuário deve visualizar o carrinho
 
-   Scenario: Buscar por um jogo inexistente
+  Scenario: Buscar por um jogo inexistente
     Given que o usuário acessa o site da Steam Store
     When ele digita "jogoInexistente123" na barra de busca
     And clica no botão de buscar
@@ -27,4 +33,4 @@ Feature: Interações básicas com a Steam Store
   Scenario: Alterar o idioma do site
     Given que o usuário acessa o site da Steam Store
     When ele muda o idioma para "Português - Brasil"
-    Then o conteúdo do site deve ser exibido em português
+    Then o conteúdo do site deve ser exibido em portugues

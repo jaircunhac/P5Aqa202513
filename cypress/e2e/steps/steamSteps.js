@@ -2,7 +2,7 @@
 import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
 
 Given("que o usuário acessa o site da Steam Store", () => {
-  cy.visit("https://store.steampowered.com/");
+  cy.visit("https://store.steampowered.com/?l=english");
   cy.get("body").should("be.visible");
 });
 
@@ -23,19 +23,37 @@ When("busca por {string}", (jogo) => {
   cy.get("#store_search_link > img").click();
 });
 
-When("ele clica em um jogo da lista", () => {
-  cy.get(".search_result_row").first().click();
+When("ele clica no jogo {string}", (jogo) => {
+  cy.get(".search_result_row").contains(jogo).click();
 });
 
 Then("ele deve ser redirecionado para a página com os detalhes do jogo", () => {
+  cy.get('body').then(($body) => {
+    if ($body.find('#ageDay').length > 0) {
+      cy.get('#ageDay').select('6')
+      cy.get('#ageMonth').select('July')
+      cy.get('#ageYear').select('2005')
+      cy.get('#view_product_page_btn > span').click()
+    }
+  });
   cy.url().should("include", "/app/");
 });
 
-Then("deve visualizar o título do jogo e um botão de adicionar ao carrinho, clicar no botão de adicionar ao carrinho e depois ver o carrinho", () => {
-  cy.get(".apphub_AppName").should("be.visible");
+And("o nome do jogo {string} deve estar visível na página", (jogo) => {
+  cy.get('#appHubAppName').should('be.visible').and('contain.text', jogo);
+})
+
+And("deve visualizar o botão de adicionar ao carrinho e clicar nele", () => {
   cy.contains("button, a", /Add.*Cart/i).should("exist").click()
+});
+
+And("deve visualizar o botão de ver o carrinho e clicar nele", () => {
   cy.contains("button, a", /View.*My Cart/i).should("exist").click();
 });
+
+Then("o usuário deve visualizar o carrinho", () => {
+  cy.url().should("include", "/cart");
+})
 
 Then("deve ser exibida uma mensagem ou nenhum resultado encontrado", () => {
   cy.get(".search_results_count").should("contain.text", "0 results");
@@ -55,7 +73,7 @@ When("ele muda o idioma para {string}", (idioma) => {
   cy.contains("a", idioma).click({ force: true });
 });
 
-Then("o conteúdo do site deve ser exibido em português", () => {
+Then("o conteúdo do site deve ser exibido em portugues", () => {
   cy.get('a.menuitem.supernav.supernav_active').should('contain.text', 'LOJA')
   cy.get('a.menuitem.supernav').should('contain.text', 'COMUNIDADE');
 });
